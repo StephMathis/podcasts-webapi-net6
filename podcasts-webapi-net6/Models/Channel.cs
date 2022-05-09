@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.WebUtilities;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System;
 using System.Collections.Generic;
 
 namespace PodcastsWebapi.Models
@@ -22,6 +24,10 @@ namespace PodcastsWebapi.Models
             Channel hydrated = channel;
             if (hydrated.Podcasts == null) {
                 hydrated.Podcasts = new List<string>();
+            }
+            if (hydrated.ChannelId == null)
+            {
+                hydrated.ChannelId = WebEncoders.Base64UrlEncode(System.Text.Encoding.UTF8.GetBytes(hydrated.Comment));
             }
             return hydrated;
         }
